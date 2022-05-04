@@ -5,7 +5,6 @@ namespace App\Model;
 class Movies
 {
     private $shows = [
-
         [
             'type' => 'Film',
             'title' => 'A Bug\'s Life',
@@ -16,7 +15,6 @@ class Movies
             'poster' => 'https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
             'rating' => 3.8
         ],
-        
         [
             'type' => 'Série',
             'title' => 'Game of Thrones',
@@ -27,7 +25,6 @@ class Movies
             'poster' => 'https://m.media-amazon.com/images/M/MV5BYTRiNDQwYzAtMzVlZS00NTI5LWJjYjUtMzkwNTUzMWMxZTllXkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_SX300.jpg',
             'rating' => 4.7
         ],
-        
         [
             'type' => 'Film',
             'title' => 'Aline',
@@ -38,7 +35,6 @@ class Movies
             'poster' => 'https://m.media-amazon.com/images/M/MV5BNjUxYTQ3YzItNjU5Ny00ZGM0LWJkMGUtN2FkMWRiNjFlY2ExXkEyXkFqcGdeQXVyMzcwMzExMA@@._V1_SX300.jpg',
             'rating' => 4.0
         ],
-        
         [
             'type' => 'Série',
             'title' => 'Stranger Things',
@@ -49,7 +45,6 @@ class Movies
             'poster' => 'https://m.media-amazon.com/images/M/MV5BN2ZmYjg1YmItNWQ4OC00YWM0LWE0ZDktYThjOTZiZjhhN2Q2XkEyXkFqcGdeQXVyNjgxNTQ3Mjk@._V1_SX300.jpg',
             'rating' => 4.2
         ],
-    
     ];
 
     /**
@@ -60,5 +55,24 @@ class Movies
     public function getAllMovies(): array
     {
         return $this->shows;
+    }
+
+    /**
+     * Retourne un film/série depuis son index dans le tableau
+     * 
+     * @param int $id Show index
+     * 
+     * @return array|null Show data or null if not founf
+     */
+    public function getOneById($id)
+    {
+        // "Early return" pattern : on sort le plus tôt possible
+        // mais aussi le return final retourne ce qui est vraiment attendu
+        // L'index est-il absent du tableau ?
+        if (!array_key_exists($id, $this->shows)) {
+            return null;
+        }
+
+        return $this->shows[$id];
     }
 }

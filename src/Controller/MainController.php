@@ -4,26 +4,54 @@ namespace App\Controller;
 
 use App\Model\Movies;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class MainController extends AbstractController
 {
     /**
      * Affiche la page d'accueil
      * 
-     * @return Response
      * @Route("/", name="home", methods={"GET"})
+     * 
+     * @return Response
      */
     public function home(): Response
     {
         // on récupère les données depuis le modèle
         $moviesModel = new Movies();
         $moviesList = $moviesModel->getAllMovies();
+        dump($moviesList);
 
         return $this->render('main/home.html.twig', [
-            'moviesList' => $moviesList
+            'moviesList' => $moviesList,
         ]);
     }
 
+    /**
+     * Changement de thème
+     * 
+     * @Route("/theme/toggle", name="theme_toggle")
+     */
+    public function themeToggle(SessionInterface $session)
+    {
+        // On souhaite que le thème par défaut soit "netflix"
+        // La valeur stockée est un booléen (actif/inactif)
+        // Ici, on va inverser le booléen de true à false et vice-versa
+
+        // Qu'a-t-on dans l'attribut de session "netflix_theme"
+        // Si non définie, on veut netflx par défaut défault donc "true"
+        $netflixActive = $session->get('netflix_theme', true);
+
+        // On va inserver ce booléen via l'opérateur "not" !
+        // Ceci crée le "toggle" (true => false et false => true)
+        $netflixActive = !$netflixActive;
+
+        // On sauvegarde la nouvelle valeur en session
+        $session->set('netflix_theme', $netflixActive);
+
+        // On redirige vers la home
+        return $this->redirectToRoute('home');
+    }
 }
