@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Movie;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -74,6 +75,7 @@ class AppFixtures extends Fixture
             $movie->setPoster($value['poster']);
             $movie->setRating($value['rating']);
             $movie->setSynopsis($value['synopsis']);
+            $movie->setReleaseDate(new DateTimeImmutable($value['release_date']));
             
 
 
