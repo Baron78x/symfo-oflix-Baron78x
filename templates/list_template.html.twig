@@ -59,8 +59,7 @@
                         <i class="bi bi-star"></i>
                         <span class="ps-1">{{ movie.rating }}</span>
                     </div>
-                    {# https://twig.symfony.com/doc/3.x/tags/for.html#the-loop-variable #}
-                    <a href="{{ path('movie_show', {id: loop.index0}) }}"
+                    <a href="{{ path('movie_show', {id: movie.id}) }}"
                         class="fs-1 mt-3 text-danger align-self-start">
                         <i class="bi bi-arrow-right-square"></i>
                     </a>

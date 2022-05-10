@@ -11,7 +11,9 @@ class Movies
             'release_date' => 1998,
             'duration' => 93,
             'summary' => 'Tilt, fourmi quelque peu tête en l\'air, détruit par inadvertance la récolte de la saison.',
-            'synopsis' => 'Tilt, fourmi quelque peu tête en l\'air, détruit par inadvertance la récolte de la saison. La fourmilière est dans tous ses états. En effet cette bévue va rendre fou de rage le Borgne, méchant insecte qui chaque été fait main basse sur une partie de la récolte avec sa bande de sauterelles racketteuses. Tilt décide de quitter l\'île pour recruter des mercenaires capables de chasser le Borgne.',
+            'synopsis' => 'Tilt, fourmi quelque peu tête en l\'air, détruit par inadvertance la récolte de la saison. La fourmilière est dans tous ses états. En effet cette bévue va rendre fou de rage le Borgne, méchant insecte qui chaque été fait main basse sur une partie de la récolte avec sa bande de sauterelles racketteuses.
+            
+            Tilt décide de quitter l\'île pour recruter des mercenaires capables de chasser le Borgne.',
             'poster' => 'https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
             'rating' => 3.8
         ],
@@ -64,7 +66,7 @@ class Movies
      * 
      * @return array|null Show data or null if not founf
      */
-    public function getOneById($id)
+    public function getOneById( $id)
     {
         // "Early return" pattern : on sort le plus tôt possible
         // mais aussi le return final retourne ce qui est vraiment attendu

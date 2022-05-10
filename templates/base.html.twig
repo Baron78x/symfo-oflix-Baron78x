@@ -16,13 +16,22 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
 
-    <title>{% block title %}O'flix{% endblock %}</title>
+    <title>{% block title %}{% endblock %} - O'flix</title>
 </head>
 
 <body>
 
     <!-- Nav -->
+
+    {# CSS Netflix #}
+    {# Si l'attribut de session netflix_theme vaut true ou n'existe (et donc vaut true par défaut) #}
+    {% if app.session.get('netflix_theme', true) == true %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    {% else %}
+    {# CSS Allociné #}
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fecc00;">
+    {% endif %}
+
         <div class="container-fluid">
             <a href="{{ path('home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
                 <img src="{{ asset('favicon.png') }}" height="24" alt="Logo O'flix">
@@ -78,7 +87,15 @@
     <!-- footer -->
     <footer class="container-fluid py-4 border-top text-center">
         <span class="text-muted">O'flix made with &hearts; at O'clock !
-            <br><small>Thème :<a href="{{ path('theme_toggle') }}" class="link-secondary text-decoration-none"><i class="bi bi-toggle-on mx-1"></i>Netflix</a></small></a>
+            <br><small>Thème :<a href="{{ path('theme_toggle') }}" class="link-secondary text-decoration-none">
+
+                {% if app.session.get('netflix_theme', true) == true %}
+                <i class="bi bi-toggle-on mx-1"></i>Netflix
+                {% else %}
+                <i class="bi bi-toggle-off mx-1"></i>Allociné
+                {% endif %}
+
+            </a></small></a>
         </span>
     </footer>
 

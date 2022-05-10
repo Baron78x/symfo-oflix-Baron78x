@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Movies;
+use App\Repository\MovieRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +18,11 @@ class MainController extends AbstractController
      * 
      * @return Response
      */
-    public function home(): Response
+    public function home(MovieRepository $movieRepository): Response
     {
-        // on récupère les données depuis le modèle
-        $moviesModel = new Movies();
-        $moviesList = $moviesModel->getAllMovies();
+        // On récupère les données depuis le Repository
+        // => derniers films en premier
+        $moviesList = $movieRepository->findAllOrderedByReleasedDateDQL();
         dump($moviesList);
 
         return $this->render('main/home.html.twig', [
@@ -51,7 +52,15 @@ class MainController extends AbstractController
         // On sauvegarde la nouvelle valeur en session
         $session->set('netflix_theme', $netflixActive);
 
+        // Test session/tableau
+        $session->set('array_test', [
+            'promo' => 'Boson Symfony',
+            'year' => 2022,
+            'students' => 17,
+        ]);
+
         // On redirige vers la home
+        // @todo bonus : rediriger vers la page d'origine
         return $this->redirectToRoute('home');
     }
 }

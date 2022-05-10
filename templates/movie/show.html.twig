@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Titre du film{% endblock %}
+{% block title %}{{ movie.title }}{% endblock %}
 
 {% block body %}
 
@@ -33,12 +33,11 @@
                         <h3 class="mb-1">{{ movie.title }}</h3>
                         <div class="mb-1 text-muted">{{ movie.duration }} min</div>
                         <p>
-                            <span class="badge bg-warning text-dark">Animation</span>
-                            <span class="badge bg-warning text-dark">Aventure</span>
-                            <span class="badge bg-warning text-dark">Comédie</span>
-                            <span class="badge bg-warning text-dark">Famille</span>
+                            {% for genre in movie.genres %}
+                            <span class="badge bg-warning text-dark">{{ genre.name }}</span>
+                            {% endfor %}
                         </p>
-                        <p>{{ movie.synopsis }}</p>
+                        <p>{{ movie.synopsis|nl2br }}</p>
                         <div class="d-flex mb-4" style="color: orange;">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -48,27 +47,29 @@
                             <span class="ps-1">{{ movie.rating }}</span>
                         </div>
     
-                        <h2>3 Saisons</h2>
+                        {# Pour compter le nombre d'éléments de la collection |length #}
+                        {# @link https://twig.symfony.com/doc/3.x/filters/length.html #}
+                        {% if movie.seasons|length > 0 %}
+                        {# Ou la méthode "count()" présente dans la classe ArrayCollection #}
+                        <h2>{{ movie.seasons.count() }} Saisons</h2>
                         <ul class="list-unstyled">
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 1</span><small class="ms-1">(10
-                                    épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 2</span><small class="ms-1">(11
-                                    épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 3</span><small class="ms-1">(12
-                                    épisodes)</small></li>
+                            {% for season in movie.seasons %}
+                            <li><span class="badge bg-danger fs-6 mb-2">Saison {{ season.number }}</span><small class="ms-1">({{ season.episodesNumber }} épisodes)</small></li>
+                            {% endfor %}
                         </ul>
+                        {% endif %}
     
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                                Acteur 1 (Tilt)<br>
-                                Acteur 2 (La reine)<br>
-                                Acteur 3 (Franz)<br>
+                                {% for casting in movie.castings %}
+                                {{casting.person.firstname}} {{casting.person.lastname}} ({{ casting.role }})<br>
+                                {% endfor %}
                             </dd>
                             <dt class="col-sm-12">Pays</dt>
                             <dd class="col-sm-12">USA</dd>
                             <dt class="col-sm-12">Année</dt>
-                            <dd class="col-sm-12">{{ movie.release_date }}</dd>
+                            <dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
                         </dl>
     
                     </div>

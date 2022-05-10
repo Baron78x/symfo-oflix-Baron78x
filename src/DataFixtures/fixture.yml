@@ -1,0 +1,11 @@
+#App\Entity\Genre: # namespace de l'entité
+#    genre_{1..42}: #le nombre d'iteration d'entité souhaité ici : genre_1, genre_2...genre_23
+#        name: '<word()>' <-- numberBetween(0,5), sentence(),(...)  cf (https://github.com/fzaninotto/Faker#basic-usage)
+
+App\Entity\Genre:
+    genre_{1..23}:
+        name: '<word()>' 
+
+App\Entity\Movie:
+    movie_{1..50}:
+        title: '<text(55)>'

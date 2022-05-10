@@ -10,11 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     /**
-     * @Route("/api/movies", name="app_api")
+     * @Route("/api/movies", name="app_api", methods={"GET"})
      */
     public function moviesCollection(): Response
     {
-
         $moviesModel = new Movies();
         $moviesList = $moviesModel->getAllMovies();
 
