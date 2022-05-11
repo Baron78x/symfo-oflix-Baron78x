@@ -1,0 +1,21 @@
+{# On arrondi Ã  l'infÃ©rieur #} 
+{% set full = rating|round(0, 'floor') %} 
+{# Si il y Ã  des Ã©toiles pleine Ã  afficher #} 
+{% if full > 0 %} 
+{# On boucle sur le nombre d'Ã©toile pleine #} 
+{% for i in 1..full %} 
+{% endfor %} 
+{% endif %} 
+{# On rÃ©cupÃ¨re les dÃ©cimales #} 
+{% set decimal = rating - full %} 
+{# On applique une Ã©toile vide ou Ã  moitier en fonction des dÃ©cimales #} 
+{% if decimal == 0 or decimal < 0.5 %} 
+{% else %} 
+{% endif %} 
+{# On calcul le nombre d'Ã©toile vide rÃ©stante #} 
+{% set diff = 5 - (full + 1) %} 
+{# Si il y Ã  des Ã©toiles vide Ã  afficher #} 
+{% if diff > 0 %} {# On boucle sur le nombre d'Ã©toile restante #} 
+{% for i in 1..diff %} 
+{% endfor %} 
+{% endif %}
