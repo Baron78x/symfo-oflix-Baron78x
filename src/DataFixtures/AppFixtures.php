@@ -87,6 +87,9 @@ class AppFixtures extends Fixture
         // use the factory to create a Faker\Generator instance
         $faker = Faker\Factory::create('fr_FR');
 
+        // On peut fixer le "seed" du générateur (et avoir toujours les mêmes données)
+        $faker->seed(2022);
+
         // On instancie notre provider custom O'flix
         $oflixProvider = new OflixProvider();
         // On ajoute notre provider à Faker
