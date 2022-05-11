@@ -168,6 +168,8 @@ class Movie
 
     public function addGenre(Genre $genre): self
     {
+        // Si le genre n'existe pas, on l'associe
+        // => on évite les doublons ici
         if (!$this->genres->contains($genre)) {
             $this->genres[] = $genre;
         }
