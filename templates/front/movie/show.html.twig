@@ -72,7 +72,15 @@
                             <dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
                         </dl>
                     
-                        <a class="btn btn-danger" href="{{ path('review_add', {id: movie.id}) }}">Ajouter un commentaire</a>
+                        <h2>Critiques</h2>
+
+                        <a href="{{ path('review_add', {id: movie.id}) }}"><button type="button" class="btn btn-danger btn-sm mb-3">Ajouter une critique</button></a>
+
+                        <ul>
+                        {% for review in reviewsList %}
+                            <li>{{ review.username }} : <i>{{ review.content }}</i></li>
+                        {% endfor %}
+                        </ul>
     
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use DateTime;
 use App\Entity\Genre;
@@ -61,7 +61,7 @@ class TestController extends AbstractController
 
         dump($movie);
 
-        return $this->render('test/show.html.twig', [
+        return $this->render('front/test/show.html.twig', [
             'movie' => $movie,
         ]);
     }

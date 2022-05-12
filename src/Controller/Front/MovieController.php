@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\Movie;
 use App\Model\Movies;
 use App\Repository\CastingRepository;
 use App\Repository\MovieRepository;
+use App\Repository\ReviewRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ class MovieController extends AbstractController
         // => par ordre alphabétique du titre
         $moviesList = $movieRepository->findAllOrderedByTitleAscQB();
 
-        return $this->render('movie/list.html.twig', [
+        return $this->render('front/movie/list.html.twig', [
             'moviesList' => $moviesList,
         ]);
     }
@@ -31,7 +32,7 @@ class MovieController extends AbstractController
      * 
      * @Route("/movie/{id}", name="movie_show", requirements={"id"="\d+"})
      */
-    public function show(Movie $movie, CastingRepository $castingRepository)
+    public function show(Movie $movie, CastingRepository $castingRepository, ReviewRepository $reviewRepository)
     {
         // 404 ?
         if ($movie === null) {
@@ -42,9 +43,16 @@ class MovieController extends AbstractController
         // du film concerné
         $castingList = $castingRepository->findCastingOfMovieQB($movie);
 
-        return $this->render('movie/show.html.twig', [
+        // On va chercher les critiques du film
+        $reviewsList = $reviewRepository->findBy(
+            ['movie' => $movie],
+            ['id' => 'ASC']
+        );
+
+        return $this->render('front/movie/show.html.twig', [
             'movie' => $movie,
             'castingList' => $castingList,
+            'reviewsList' => $reviewsList,
         ]);
     }
 }

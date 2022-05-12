@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
@@ -19,36 +20,44 @@ class Review
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert\Length(min=10)
      */
     private $content;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank
      */
     private $rating;
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank
      */
     private $reactions = [];
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\NotBlank
      */
     private $watchedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Movie::class)
+     * @ORM\ManyToOne(targetEntity=Movie::class, inversedBy="reviews")
      */
     private $movie;
 
@@ -93,12 +102,12 @@ class Review
         return $this;
     }
 
-    public function getRating(): ?float
+    public function getRating(): ?int
     {
         return $this->rating;
     }
 
-    public function setRating(float $rating): self
+    public function setRating(int $rating): self
     {
         $this->rating = $rating;
 
@@ -122,7 +131,7 @@ class Review
         return $this->watchedAt;
     }
 
-    public function setWatchedAt(\DateTimeImmutable $watchedAt): self
+    public function setWatchedAt(?\DateTimeImmutable $watchedAt): self
     {
         $this->watchedAt = $watchedAt;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Model\Movies;
 use App\Repository\MovieRepository;
@@ -25,7 +25,7 @@ class MainController extends AbstractController
         $moviesList = $movieRepository->findAllOrderedByReleasedDateDQL();
         dump($moviesList);
 
-        return $this->render('main/home.html.twig', [
+        return $this->render('front/main/home.html.twig', [
             'moviesList' => $moviesList,
         ]);
     }

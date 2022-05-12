@@ -6,12 +6,10 @@ use App\Entity\Review;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
@@ -20,35 +18,43 @@ class ReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('content', TextareaType::class)
+            ->add('username', TextType::class, [
+                'label' => 'Pseudo',
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail',
+            ])
+            ->add('content', TextareaType::class, [
+                'label' => 'Critique',
+            ])
             ->add('rating', ChoiceType::class, [
+                'label' => 'Votre avis',
+                'placeholder' => 'Choisissez votre avis',
                 'choices'   => [
-                '1' => 1,
-                '2' => 2,
-                '3' => 3,
-                '4' => 4,
-                '5' => 5,
+                    'Excellent' => 5,
+                    'Très bon' => 4,
+                    'Bon' => 3,
+                    'Peut mieux faire' => 2,
+                    'A éviter' => 1,
+                    'Dragon Ball Evolution' => 0
                 ]
             ])
             ->add('reactions', ChoiceType::class, [
+                'label' => 'Ce film/série vous a fait...',
                 'choices'   => [
-                    'smile' => 'smile',
-                    'cry' => 'cry',
-                    'think' => 'think',
-                    'sleep' => 'sleep',
-                    'dream' => 'dream'
+                    'Rire' => 'smile',
+                    'Pleurer' => 'cry',
+                    'Réfléchir' => 'think',
+                    'Dormir' => 'sleep',
+                    'Rêver' => 'dream',
                 ],
                 'multiple' => true,
-                'expanded' => true,
-                
+                'expanded' => true,                
             ])
-            ->add('watchedAt', DateTimeType::class, [
+            ->add('watchedAt', DateType::class, [
+                'format' => 'ddMMMMyyyy',
+                'label' => 'Date à laquelle vous avez regarder ce film.',
                 'input' => 'datetime_immutable',
-                'widget' => 'choice',
-                'help' => 'Date à laquelle vous avez regarder ce film.',
-                'label' => 'Date de visionnage',
             ])
             // ->add('movie', TextType::class)
         ;
