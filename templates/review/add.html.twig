@@ -19,6 +19,7 @@
 
                 
                 <div class="col-8 p-4 d-flex flex-column position-static bg-light">
+                    <h2>{{ currentMovie.title }}</h2>
                 {# @link https://symfony.com/doc/5.4/forms.html#rendering-forms #}
                 {# @link https://symfony.com/doc/5.4/forms.html#client-side-html-validation #}
                 {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': 'form__post'}}) }}
