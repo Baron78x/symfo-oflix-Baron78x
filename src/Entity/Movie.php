@@ -6,6 +6,7 @@ use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
@@ -21,16 +22,19 @@ class Movie
 
     /**
      * @ORM\Column(type="string", length=220)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank
      */
     private $releaseDate;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Assert\NotBlank
      */
     private $duration;
 
@@ -41,6 +45,7 @@ class Movie
 
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
+     * @Assert\NotBlank
      */
     private $genres;
 
@@ -54,21 +59,25 @@ class Movie
 
     /**
      * @ORM\Column(type="string", length=2083, nullable=true)
+     * @Assert\NotBlank
      */
     private $poster;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @Assert\NotBlank
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=500)
+     * @Assert\NotBlank
      */
     private $summary;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank
      */
     private $synopsis;
 

@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des films{% endblock %}
+{% block title %}Liste des films et séries{% endblock %}
 
 {% block body %}
-    <h1>Liste des films</h1>
+<div class="m-4">
+    <h1>Liste des films et séries</h1>
 
     <a href="{{ path('app_back_movie_new') }}" class="btn btn-primary mb-2">Ajouter un film</a>
 
-    <table class="table">
+    <table class="table m-4">
         <thead>
             <tr>
                 <th>Id</th>
@@ -16,6 +17,7 @@
                 <th>Durée</th>
                 <th>Affiche</th>
                 <th>Type</th>
+                <th>Genre</th>
                 <th>Note</th>
                 <th>actions</th>
             </tr>
@@ -28,11 +30,16 @@
                 <td>{{ movie.releaseDate ? movie.releaseDate|date('d-M-Y') : '' }}</td>
                 <td>{{ movie.duration }} min</td>
                 <td><img src="{{ movie.poster }}" height="40"></td>
-                <td>{{ movie.type }}</td>
+                <td>{{ movie.type }}</td>                
+                <td>
+                    {% for genre in movie.genres %}
+                    {{ genre.name}}
+                    {% endfor %}
+                </td>
                 <td>{{ movie.rating }}</td>
                 <td>
-                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}">show</a>
-                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}">edit</a>
+                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}" class="btn btn-warning mb-2">Voir</a>
+                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-success mb-2">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -42,5 +49,7 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
+
 
 {% endblock %}
