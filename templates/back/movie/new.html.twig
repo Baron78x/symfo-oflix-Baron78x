@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/base_back.html.twig' %}
 
 {% block title %}Nouveau Film{% endblock %}
 
@@ -8,7 +8,7 @@
 
     {{ include('back/movie/_form.html.twig') }}
 
-    <a href="{{ path('app_back_movie_index') }}" class="btn btn-primary mb-2">Retour à la liste</a>
+    <a href="{{ path('back_movie_index') }}" class="btn btn-primary mb-2">Retour à la liste</a>
 </div>
     
 {% endblock %}

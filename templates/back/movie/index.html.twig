@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/base_back.html.twig' %}
 
 {% block title %}Liste des films et séries{% endblock %}
 
@@ -6,7 +6,7 @@
 <div class="m-4">
     <h1>Liste des films et séries</h1>
 
-    <a href="{{ path('app_back_movie_new') }}" class="btn btn-primary mb-2">Ajouter un film</a>
+    <a href="{{ path('back_movie_new') }}" class="btn btn-primary mb-2">Ajouter un film</a>
 
     <table class="table m-4">
         <thead>
@@ -38,8 +38,8 @@
                 </td>
                 <td>{{ movie.rating }}</td>
                 <td>
-                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}" class="btn btn-warning mb-2">Voir</a>
-                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-success mb-2">Modifier</a>
+                    <a href="{{ path('back_movie_show', {'id': movie.id}) }}" class="btn btn-warning mb-2">Voir</a>
+                    <a href="{{ path('back_movie_edit', {'id': movie.id}) }}" class="btn btn-success mb-2">Modifier</a>
                     {% if movie.type == 'Série' %}
                     <a href="{{ path('back_season_index', {'id': movie.id}) }}" class="btn btn-sm btn-warning">saisons</a>
                     {% endif %}

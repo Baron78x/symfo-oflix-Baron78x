@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{# Ce bloc sera injecté dans le template de base #}
+{% block subnav %}
+
+<ul class="nav container">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('back_movie_index') }}">Séries et films</a>
+    </li>
+</ul>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% block body_back %}{% endblock %}
+</div>
+{% endblock %}

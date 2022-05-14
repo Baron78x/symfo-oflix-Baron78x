@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/base_back.html.twig' %}
 
 {% block title %}{{ movie.title }}{% endblock %}
 
@@ -57,9 +57,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_movie_index') }}" class="btn btn-primary">Retour à la liste</a>
+    <a href="{{ path('back_movie_index') }}" class="btn btn-primary">Retour à la liste</a>
     
-    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-success">Modifier</a>
+    <a href="{{ path('back_movie_edit', {'id': movie.id}) }}" class="btn btn-success">Modifier</a>
 
     {{ include('back/movie/_delete_form.html.twig') }}
 
