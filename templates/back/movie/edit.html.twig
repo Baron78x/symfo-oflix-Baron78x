@@ -2,7 +2,7 @@
 
 {% block title %}Modifier un film{% endblock %}
 
-{% block body %}
+{% block body_back %}
     {% if movie.type == "Film" %} 
     <h1>Modifier le film {{ movie.title }}</h1>
     {% elseif movie.type == "Série" %}

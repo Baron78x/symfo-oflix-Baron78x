@@ -1,0 +1,16 @@
+<div class="d-flex mb-4" style="color: orange;">
+    {# Pour chaque position d'étoile de 1 à 5 #}
+    {% for i in 1..5 %}
+        {# Si le rating est supérieur à la position, étoile pleine #}
+        {% if movie.rating >= i %}
+        <i class="bi bi-star-fill"></i>
+        {# Si la diff. entre la position et le rating est inf. à 0.5, demi-étoile #}
+        {% elseif (i - movie.rating) <= 0.5 %}
+        <i class="bi bi-star-half"></i>
+        {% else %}
+        {# Sinon, étoile vide #}
+        <i class="bi bi-star"></i>
+        {% endif %}
+    {% endfor %}
+    <span class="ps-1">{{ movie.rating }}</span>
+</div>

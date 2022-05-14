@@ -12,7 +12,7 @@
 {# Dump à l'écran #}
 {# {{ dump(movie) }} #}
 
-    <div class="container bg-lighttt pt-5">
+    <div class="container pt-5">
     
         <div class="row mb-2">
     
@@ -38,20 +38,14 @@
                             {% endfor %}
                         </p>
                         <p>{{ movie.synopsis|nl2br }}</p>
-                        <div class="d-flex mb-4" style="color: orange;">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                            <span class="ps-1">{{ movie.rating }}</span>
-                        </div>
-    
+
+                        {{ include('front/_rating_stars.html.twig') }}
+
                         {# Pour compter le nombre d'éléments de la collection |length #}
                         {# @link https://twig.symfony.com/doc/3.x/filters/length.html #}
                         {% if movie.seasons|length > 0 %}
                         {# Ou la méthode "count()" présente dans la classe ArrayCollection #}
-                        <h2>{{ movie.seasons.count() }} Saisons</h2>
+                        <h2>{{ movie.seasons.count() }} Saison{{ movie.seasons.count() > 1 ? 's' }}</h2>
                         <ul class="list-unstyled">
                             {% for season in movie.seasons %}
                             <li><span class="badge bg-danger fs-6 mb-2">Saison {{ season.number }}</span><small class="ms-1">({{ season.episodesNumber }} épisodes)</small></li>
@@ -62,8 +56,9 @@
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                                {% for casting in movie.castings %}
-                                {{casting.person.firstname}} {{casting.person.lastname}} ({{ casting.role }})<br>
+                                {# On boucle sur les résultats récupérés depuis le contrôleur #}
+                                {% for casting in castingList %}
+                                {{ casting.person.firstname }} {{ casting.person.lastname }} <i>({{ casting.role }})</i><br>
                                 {% endfor %}
                             </dd>
                             <dt class="col-sm-12">Pays</dt>
@@ -71,17 +66,17 @@
                             <dt class="col-sm-12">Année</dt>
                             <dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
                         </dl>
-                    
+
                         <h2>Critiques</h2>
 
-                        <a href="{{ path('review_add', {id: movie.id}) }}"><button type="button" class="btn btn-danger btn-sm mb-3">Ajouter une critique</button></a>
+                        <a href="{{ path('review_add', {id: movie.id}) }}"><button type="button" class="btn btn-success btn-sm mb-3">Ajouter une critique</button></a>
 
                         <ul>
                         {% for review in reviewsList %}
                             <li>{{ review.username }} : <i>{{ review.content }}</i></li>
                         {% endfor %}
                         </ul>
-    
+
                     </div>
                 </div>
     

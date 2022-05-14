@@ -32,7 +32,7 @@ class MovieController extends AbstractController
      * 
      * @Route("/movie/{id}", name="movie_show", requirements={"id"="\d+"})
      */
-    public function show(Movie $movie, CastingRepository $castingRepository, ReviewRepository $reviewRepository)
+    public function show(Movie $movie = null, CastingRepository $castingRepository, ReviewRepository $reviewRepository)
     {
         // 404 ?
         if ($movie === null) {

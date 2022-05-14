@@ -23,7 +23,7 @@ class MainController extends AbstractController
         // On récupère les données depuis le Repository
         // => derniers films en premier
         $moviesList = $movieRepository->findAllOrderedByReleasedDateDQL();
-        dump($moviesList);
+        // dump($moviesList);
 
         return $this->render('front/main/home.html.twig', [
             'moviesList' => $moviesList,

@@ -47,7 +47,7 @@ class ReviewController extends AbstractController
 
         // /!\ renderForm() si on trnasmet un formulaire
         return $this->renderForm('front/review/add.html.twig', [
-            'currentMovie' => $movie,
+            'movie' => $movie,
             'form' => $form,
         ]);
     }
