@@ -1,0 +1,43 @@
+{% extends 'back/base_back.html.twig' %}
+
+{% block title %}Liste des saisons{% endblock %}
+
+{% block body_back %}
+
+    <h1>Liste des saisons</h1>
+    <h2>Série : {{ movie.title }}</h2>
+
+    <a href="{{ path('back_season_new', {id: movie.id}) }}" class="btn btn-primary mb-2">Ajouter une saison</a>
+
+    {{ include('_flash_messages.html.twig') }}
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Série</th>
+                <th>Numéro de saison</th>
+                <th>Nombre d'épisodes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for season in seasons %}
+            <tr>
+                <td>{{ season.id }}</td>
+                <td>{{ season.movie.title }}</td>
+                <td>{{ season.number }}</td>
+                <td>{{ season.episodesNumber }}</td>
+                <td>
+                    <a href="{{ path('back_season_edit', {'id': season.id}) }}" class="btn btn-sm btn-success">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

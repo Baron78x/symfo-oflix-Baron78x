@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use App\Repository\SeasonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=SeasonRepository::class)
+ * @UniqueEntity(
+ *  fields={"number", "movie"},
+ *  message="Vous avez déjà une saison {{ value }} sur cette série."
+ * )
  */
 class Season
 {

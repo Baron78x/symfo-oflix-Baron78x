@@ -28,7 +28,7 @@
                 <td>{{ movie.id }}</td>
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.releaseDate ? movie.releaseDate|date('d-M-Y') : '' }}</td>
-                <td>{{ movie.duration }} min</td>
+                <td class="text-end">{{ movie.duration }} min</td>
                 <td><img src="{{ movie.poster }}" height="40"></td>
                 <td>{{ movie.type }}</td>                
                 <td>
@@ -40,6 +40,9 @@
                 <td>
                     <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}" class="btn btn-warning mb-2">Voir</a>
                     <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-success mb-2">Modifier</a>
+                    {% if movie.type == 'Série' %}
+                    <a href="{{ path('back_season_index', {'id': movie.id}) }}" class="btn btn-sm btn-warning">saisons</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

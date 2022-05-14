@@ -4,11 +4,15 @@ namespace App\Form;
 
 use App\Entity\Genre;
 use App\Entity\Movie;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MovieType extends AbstractType
 {
@@ -16,9 +20,13 @@ class MovieType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('releaseDate')
+            ->add( 'releaseDate', DateType::class, [
+                //'years' => range(date('Y'), date('Y') - 100),
+                // De la date courante jusqu'à la date du premier film
+                'years' => range(date('Y') + 5, 1895),
+            ])
             ->add('duration')
-            ->add('poster')
+            ->add('poster', UrlType::class)
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Film' => 'Film',
@@ -26,7 +34,7 @@ class MovieType extends AbstractType
                 ],
                 'expanded' => true,
             ])
-            ->add('summary')
+            ->add('summary', TextareaType::class)
             ->add('synopsis')
             // ->add('rating')
             ->add('genres', EntityType::class, [
@@ -34,6 +42,12 @@ class MovieType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+                'help' => 'Sélectionner au moins un genre.',
+                // @link https://symfony.com/doc/current/reference/forms/types/entity.html#using-a-custom-query-for-the-entities
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.name', 'ASC');
+                },
             ])
         ;
     }
