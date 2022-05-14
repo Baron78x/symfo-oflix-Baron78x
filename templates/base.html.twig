@@ -81,8 +81,11 @@
         </div>
     </nav>
 
+    <!-- Sous-nav (back-office) -->
+    {% block subnav %}{% endblock %}
+
     <!-- main -->
-    {% block body %}{% endblock %}
+    {% block body %}{% block body_back %}{% endblock %}{% endblock %}
 
     <!-- footer -->
     <footer class="container-fluid py-4 border-top text-center">
