@@ -38,8 +38,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/back, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/back/movie/new, roles: ROLE_ADMIN }
+        - { path: ^/back/movie/\d+/edit, roles: ROLE_ADMIN } 
+        - { path: ^/back/movie/\d+, roles: ROLE_ADMIN, methods: POST }
+        - { path: ^/back/user, roles: ROLE_ADMIN } 
+        - { path: ^/back, roles: [ROLE_ADMIN, ROLE_MANAGER] }
+        - { path: ^/movie/\d+/review/add, roles: IS_AUTHENTICATED_FULLY }
+        
 
 when@test:
     security:

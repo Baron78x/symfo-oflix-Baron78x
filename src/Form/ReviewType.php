@@ -36,7 +36,7 @@ class ReviewType extends AbstractType
                     'Bon' => 3,
                     'Peut mieux faire' => 2,
                     'A éviter' => 1,
-                    'Dragon Ball Evolution' => 0
+                    'Dragon Ball Evolution' => 0,
                 ]
             ])
             ->add('reactions', ChoiceType::class, [

@@ -3,7 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Model\Movies;
+use App\Entity\User;
 use App\Repository\MovieRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +27,11 @@ class MainController extends AbstractController
         $moviesList = $movieRepository->findAllOrderedByReleasedDateDQL();
         // dump($moviesList);
 
+        
+
         return $this->render('front/main/home.html.twig', [
             'moviesList' => $moviesList,
+            
         ]);
     }
 

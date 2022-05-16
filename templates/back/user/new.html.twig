@@ -1,0 +1,12 @@
+{% extends 'back/base_back.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body_back %}
+    <h1>Create new User</h1>
+    {{ include('_flash_messages.html.twig') }}
+
+    {{ include('back/user/_form.html.twig') }}
+
+    <a href="{{ path('back_user_index') }}">back to list</a>
+{% endblock %}
