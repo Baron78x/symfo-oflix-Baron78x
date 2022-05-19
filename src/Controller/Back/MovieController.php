@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\SluggerManager;
 
 /**
  * Classe qui gère le CRUD sur Movie
@@ -31,13 +32,14 @@ class MovieController extends AbstractController
     /**
      * @Route("/new", name="back_movie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, MovieRepository $movieRepository): Response
+    public function new(Request $request, MovieRepository $movieRepository, SluggerManager $sluggerManager): Response
     {
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $movie->setSlug($sluggerManager->lower($movie->getTitle()));
             $movieRepository->add($movie);
             $this->addFlash('success', 'Film ajouté.');
             return $this->redirectToRoute('back_movie_index', [], Response::HTTP_SEE_OTHER);

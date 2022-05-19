@@ -1,0 +1,9 @@
+<form action="{{ path('favorites') }}" method="post">
+    <input type="hidden" name="movie" value="{{ movie.id }}">
+    {% set favorites = app.session.get('favorites') %}
+    <div class="movie__favorite fs-1 my-2 mx-3 link-danger">
+        <button type="submit">
+            <i class="bi bi-bookmark-{{ movie.id in favorites|keys ? 'x-fill' : 'plus'  }}"></i>
+        </button>
+    </div>
+</form>

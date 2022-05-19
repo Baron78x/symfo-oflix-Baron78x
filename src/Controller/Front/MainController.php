@@ -3,13 +3,13 @@
 namespace App\Controller\Front;
 
 use App\Model\Movies;
-use App\Entity\User;
 use App\Repository\MovieRepository;
-use App\Repository\UserRepository;
+use App\Service\FavoritesManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
@@ -27,11 +27,8 @@ class MainController extends AbstractController
         $moviesList = $movieRepository->findAllOrderedByReleasedDateDQL();
         // dump($moviesList);
 
-        
-
         return $this->render('front/main/home.html.twig', [
             'moviesList' => $moviesList,
-            
         ]);
     }
 
@@ -67,5 +64,67 @@ class MainController extends AbstractController
         // On redirige vers la home
         // @todo bonus : rediriger vers la page d'origine
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/favorites", name="favorites", methods={"GET", "POST"})
+     */
+    public function favorites(Request $request, MovieRepository $movieRepository, FavoritesManager $favoritesManager): Response
+    {
+        if ($request->isMethod('POST')) {
+
+            $movieId = $request->request->get('movie');
+            $movie = $movieRepository->find($movieId);
+
+            // Toggle ce film
+            $added = $favoritesManager->toggle($movie);
+
+            if ($added) {
+
+                $this->addFlash(
+                    'success',
+                    $movie->getTitle() . ' -  a été ajouté de votre liste de favoris.'
+                );
+
+            } else {
+
+                $this->addFlash(
+                    'warning',
+                    $movie->getTitle() . ' - a été retiré de votre liste de favoris.'
+                );
+
+            }
+
+            return $this->redirectToRoute('favorites');
+        }
+
+        return $this->render('front/main/favorites.html.twig');
+    }
+
+    /**
+     * @Route("/favorites/delete", name="delete_favorites", methods={"POST"})
+     */
+    public function deleteFavorites(FavoritesManager $favoritesManager): Response
+    {
+        // Vide la liste
+        $success = $favoritesManager->empty();
+
+        if ($success) {
+
+            $this->addFlash(
+                'success',
+                'Liste de favoris vidée.'
+            );
+
+        } else {
+
+            $this->addFlash(
+                'warning',
+                'La liste de favoris non vidée (contactez votre administrateur).'
+            );
+
+        }
+
+        return $this->redirectToRoute('favorites');
     }
 }

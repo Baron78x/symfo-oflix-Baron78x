@@ -39,7 +39,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $plaintextPassword = $request->request->get('user')['password'];           
+            $plaintextPassword = $request->request->get('user')['password'];           
 
             if(preg_match('/^(?=.*[0-9])(?=.*[A-ZÀ-ÖØ-Ÿ])(?=.*[a-zà-öø-ÿ])(?=.*[_|%&*=@$-])[0-9A-zÀ-ÖØ-öø-ÿ_|%&*=@$-]{8,}$/', $plaintextPassword)) {
                 // hash the password (based on the security.yaml config for the $user class)

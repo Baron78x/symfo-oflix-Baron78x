@@ -43,8 +43,10 @@
                     <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
                 </div>
                 <div class="col-8 p-4 d-flex flex-column position-static">
-                    <a href="./favorites.html" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i
-                            class="bi bi-bookmark-plus"></i></a>
+                    
+                    {# Inclusion bouton favoris #}
+                    {{ include('front/_favorites_button.html.twig') }}
+                    
                     <strong
                         class="d-inline-block mb-2 {% if movie.type == 'Film' %} text-primary {% else %} text-success {% endif %}">{{
                         movie.type }}</strong>
@@ -54,7 +56,7 @@
 
                     {{ include('front/_rating_stars.html.twig') }}
 
-                    <a href="{{ path('movie_show', {id: movie.id}) }}"
+                    <a href="{{ path('movie_show', {slug:movie.slug}) }}"
                         class="fs-1 mt-3 text-danger align-self-start">
                         <i class="bi bi-arrow-right-square"></i>
                     </a>

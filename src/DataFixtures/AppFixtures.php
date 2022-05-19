@@ -13,9 +13,17 @@ use App\Entity\Casting;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\OflixProvider;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
+    private $slugger;
+    
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     public function load(ObjectManager $manager): void
     {
         
@@ -87,6 +95,7 @@ class AppFixtures extends Fixture
             $movie->setPoster('https://picsum.photos/id/'. $faker->numberBetween(1, 100).'/450/300');
             // 1 chiffre après la virgule, entre 1 et 5
             $movie->setRating($faker->randomFloat(1, 1, 5));
+            $movie->setSlug($this->slugger->slug($movie->getTitle())->lower());
 
             // Seasons
             // On vérifie si l'entitéeMovie est une série ou pas
@@ -157,13 +166,13 @@ class AppFixtures extends Fixture
         $newUser[1]->setEmail('manager@manager.com');
         $newUser[1]->setPassword('$2y$13$USCmf9uqlyhK6..uslk.ouRC4AWmR.0FwwLxjoJ9GrlmJMIcZPeMe');
         $newUser[1]->setRoles(['ROLE_MANAGER']);
-        $manager->persist($newUser[0]);
+        $manager->persist($newUser[1]);
         // User Admin
         $newUser[2] = new User();
         $newUser[2]->setEmail('admin@admin.com');
         $newUser[2]->setPassword('$2y$13$OUheoo1RpoRNJATca7IXV.4FricZLgUfMCfO995ruXgSHd6u5Gx.e');
         $newUser[2]->setRoles(['ROLE_ADMIN']);
-        $manager->persist($newUser[0]);
+        $manager->persist($newUser[2]);
 
         $manager->flush();
     }

@@ -56,34 +56,47 @@
                 {% endif %}
                 </ul>
                 
-                {% if app.user is not null %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {# User connecté #}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown">
-                            <span>
-                                {{ app.user.email }}                           
-                            </span>
+                            <span>{{ app.user.email }}</span>
                             <i class="bi bi-person-square"></i>
                         </a>
                         <ul class="dropdown-menu">
+
                             {% if is_granted('ROLE_ADMIN') %}
-                            <li class="dropdown-item">Admin</li>
+                            <li><h6 class="dropdown-header">Administrateur</h6></li>
+                            
                             {% elseif is_granted('ROLE_MANAGER') %}
-                            <li class="dropdown-item">Manager</li>
-                            {% elseif is_granted('ROLE_USER') %}
-                            <li class="dropdown-item">User</li>
+                            <li><h6 class="dropdown-header">Manager</h6></li>
+                            
+                            {% elseif is_granted('ROLE_USER')%}
+                            <li><h6 class="dropdown-header">Membre</h6></li>
+                            
                             {% endif %}
+
                             <li><a class="dropdown-item" href="#">Profil</a></li>
+
+                            {# Accès à partir de ROLE_MANAGER #}
+                            {% if is_granted('ROLE_MANAGER') %}
                             <li><a class="dropdown-item" href="{{ path('back_back_menu') }}">Backoffice</a></li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ path('logout') }}">Déconnexion</a></li>
                         </ul>
                     </li>
                 </ul>
-                <a class="nav-link" href="{{ path('logout') }}"><button type="button" class="btn btn-danger me-2">Déconnexion</button></a>
+                <a href="{{ path('logout') }}" class="btn btn-danger me-2">Déconnexion</a>
+                {% else %}
+                {# User non connecté #}
+                <a href="{{ path('login') }}" class="btn btn-danger me-2">Connexion</a>
+                {% endif %}
 
-{% else %}
-                <a class="nav-link" href="{{ path('login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
-{% endif %}
                 <form class="d-flex" action="list.html">
                     <input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher...">
                     <button class="btn btn-outline-danger" type="submit"><i class="bi bi-search"></i></button>

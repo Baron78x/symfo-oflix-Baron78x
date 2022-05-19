@@ -90,6 +90,11 @@ class Movie
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="movie")
      */
     private $reviews;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
     
     public function __construct()
     {
@@ -315,6 +320,18 @@ class Movie
                 $review->setMovie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

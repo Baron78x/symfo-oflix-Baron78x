@@ -38,13 +38,36 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/back/movie/new, roles: ROLE_ADMIN }
-        - { path: ^/back/movie/\d+/edit, roles: ROLE_ADMIN } 
-        - { path: ^/back/movie/\d+, roles: ROLE_ADMIN, methods: POST }
-        - { path: ^/back/user, roles: ROLE_ADMIN } 
-        - { path: ^/back, roles: [ROLE_ADMIN, ROLE_MANAGER] }
-        - { path: ^/movie/\d+/review/add, roles: IS_AUTHENTICATED_FULLY }
         
+        # Front : Si user ANONYME : page d'accueil + fiche film seulement.
+        # Pas besoin de PUBLIC_ACCESS sur les chemins enaccès libre
+        # Car nous avons un front qui est libre d'accès
+        # @link https://symfony.com/doc/5.4/security.html#allowing-unsecured-access-i-e-anonymous-users
+
+        # Front : Si ROLE_USER : ajouter une critique sur un film.
+        - { path: ^/movie/\d+/review/add, roles: ROLE_USER }
+
+        # Back : Sécuriser toutes les routes /new /edit /delete avec ROLE_ADMIN.
+        # On configure d'abord les règles pour le ROLE_ADMIN afin de restreindre l'accès à ROLE_MANAGER
+
+        - { path: ^/back/(movie|season)/new, roles: ROLE_ADMIN }
+        - { path: ^/back/(movie|season)/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/back/(movie|season)/\d+, roles: ROLE_ADMIN, methods: POST }
+
+        # Back : Si ROLE_MANAGER : accès aux pages de listes movie, genres etc. et pages show (si existantes).
+        - { path: ^/back, roles: ROLE_MANAGER }
+
+        # back_movie_index           GET        ANY      ANY    /back/movie                        
+        # back_movie_show            GET        ANY      ANY    /back/movie/{id}                   
+
+        # back_season_index          GET        ANY      ANY    /back/season/movie/{id}            
+        # back_season_show           GET        ANY      ANY    /back/season/{id}
+    
+    role_hierarchy:
+        # Le rôle ADMIN hérite du rôle MANAGER
+        ROLE_ADMIN: ROLE_MANAGER
+        # Pour que les admins et les managers puisse écrire une critique de film
+        ROLE_MANAGER: ROLE_USER
 
 when@test:
     security:

@@ -4,12 +4,14 @@ namespace App\Controller\Front;
 
 use App\Entity\Movie;
 use App\Model\Movies;
-use App\Repository\CastingRepository;
 use App\Repository\MovieRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\CastingRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\SluggerManager;
 
 class MovieController extends AbstractController
 {
@@ -30,10 +32,11 @@ class MovieController extends AbstractController
     /**
      * @link https://symfony.com/doc/current/routing.html#parameters-validation
      * 
-     * @Route("/movie/{id}", name="movie_show", requirements={"id"="\d+"})
+     * @Route("/movie/{slug}", name="movie_show")
      */
-    public function show(Movie $movie = null, CastingRepository $castingRepository, ReviewRepository $reviewRepository)
+    public function show(Movie $movie = null, CastingRepository $castingRepository, ReviewRepository $reviewRepository): Response
     {
+        
         // 404 ?
         if ($movie === null) {
             throw $this->createNotFoundException('Film non trouvé.');

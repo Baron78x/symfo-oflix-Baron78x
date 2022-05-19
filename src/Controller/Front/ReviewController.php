@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ReviewController extends AbstractController
 {
     /**
-     * @Route("/movie/{id}/review/add", name="review_add")
+     * @Route("/movie/{slug}/review/add", name="review_add")
      */
     public function add(Movie $movie = null, Request $request, ManagerRegistry $doctrine): Response
     {
