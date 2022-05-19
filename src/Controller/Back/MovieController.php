@@ -64,12 +64,13 @@ class MovieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_movie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Movie $movie, MovieRepository $movieRepository): Response
+    public function edit(Request $request, Movie $movie, MovieRepository $movieRepository, SluggerManager $sluggerManager): Response
     {
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $movie->setSlug($sluggerManager->lower($movie->getTitle()));
             $movieRepository->add($movie);
             $this->addFlash('success', 'Film modifié.');
             return $this->redirectToRoute('back_movie_index', [], Response::HTTP_SEE_OTHER);
