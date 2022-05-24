@@ -6,7 +6,9 @@
 parameters:
     # Si on souhaite remonter la config dans le .env
     favorites_empty_enabled: '%env(bool:FAVORITES_EMPTY_ENABLED)%'
-    slugger_lower_enabled: '%env(bool:SLUGGER_LOWER_ENABLED)%'
+    omdbapi_key: '%env(OMDBAPI_KEY)%'
+    alert_message: '%env(bool:ALERT_MESSAGE)%'
+    alert_message_text: '%env(ALERT_MESSAGE_TEXT)%'
 
 services:
     # default configuration for services in *this* file
@@ -29,8 +31,38 @@ services:
     # Configuration de nos services
     App\Service\FavoritesManager:
         arguments:
-            $emptyEnabled: true
+            $emptyEnabled: '%favorites_empty_enabled%'
 
-    App\Service\SluggerManager:
+    App\Service\MySlugger:
         arguments:
-            $lowerEnabled: true
+            $toLower: true
+
+    App\Service\OmdbApi:
+        arguments:
+            $apiKey: '%omdbapi_key%'
+
+    App\EventListener\MovieSluggerListener:
+        tags:
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                # Type d'événement, ici, avant INSERT INTO
+                event: 'prePersist'
+                # L'entité à écouter
+                entity: 'App\Entity\Movie'
+                # La méthode du listener à appeler
+                method: 'setSlug'
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                # Type d'événement, ici, avant UPDATE
+                event: 'preUpdate'
+                # L'entité à écouter
+                entity: 'App\Entity\Movie'
+                # La méthode du listener à appeler
+                method: 'setSlug'
+
+    App\EventSubscriber\MaintenanceSubscriber:
+        arguments:
+            $alertMessage: '%alert_message%'
+            $alertMessageText: '%alert_message_text%'

@@ -2,20 +2,16 @@
 
 {# Ce bloc sera injecté dans le template de base #}
 {% block subnav %}
-<div class="container-fluid">
-    <ul class="nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('back_movie_index') }}">Séries et films</a>    
-        </li>    
-        {% if is_granted('ROLE_ADMIN') %}
-        <li>
-            <a class="nav-link" href="{{ path('back_back_menu') }}">Liste des utilisateurs</a>
-        </li>
-        {% endif %}
-        
-    </ul>
-</div>
-    
+
+<ul class="nav container">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('back_movie_index') }}">Séries et films</a>
+    </li>
+    {# @todo conditionner selon le rôle #}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('back_user_index') }}">Utilisateurs</a>
+    </li>
+</ul>
 
 {% endblock %}
 

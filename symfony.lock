@@ -264,6 +264,12 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v5.4.8"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.5.1"
+    },
     "symfony/http-foundation": {
         "version": "v5.4.8"
     },
@@ -353,6 +359,9 @@
         "version": "v5.4.3"
     },
     "symfony/security-http": {
+        "version": "v5.4.8"
+    },
+    "symfony/serializer": {
         "version": "v5.4.8"
     },
     "symfony/service-contracts": {

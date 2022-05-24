@@ -11,7 +11,7 @@
 
         {% include "_flash_messages.html.twig" %}
 
-        {% for movie in favorites %}
+        {% for movie in app.session.get('favorites') %}
 
         <div class="col-6">
 
@@ -28,7 +28,7 @@
                     <strong class="d-inline-block mb-2 text-primary">Film</strong>
                     <h3 class="mb-1">{{ movie.title }}</h3>
                     <div class="mb-1 text-muted">{{ movie.duration ~ 'min' }}</div>
-                    <a href="{{ path('movie_show', {slug:movie.slug}) }}" class="fs-1 mt-3 text-danger align-self-start">
+                    <a href="{{ path('movie_show', {slug: movie.slug}) }}" class="fs-1 mt-3 text-danger align-self-start">
                         <i class="bi bi-arrow-right-square"></i>
                     </a>
                 </div>

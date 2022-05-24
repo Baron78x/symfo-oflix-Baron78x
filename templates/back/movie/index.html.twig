@@ -1,14 +1,16 @@
 {% extends 'back/base_back.html.twig' %}
 
-{% block title %}Liste des films et séries{% endblock %}
+{% block title %}Liste des films{% endblock %}
 
 {% block body_back %}
-<div class="m-4">
-    <h1>Liste des films et séries</h1>
+
+    <h1>Liste des films</h1>
 
     <a href="{{ path('back_movie_new') }}" class="btn btn-primary mb-2">Ajouter un film</a>
 
-    <table class="table m-4">
+    {{ include('_flash_messages.html.twig') }}
+
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>Id</th>
@@ -17,7 +19,6 @@
                 <th>Durée</th>
                 <th>Affiche</th>
                 <th>Type</th>
-                <th>Genre</th>
                 <th>Note</th>
                 <th>actions</th>
             </tr>
@@ -27,19 +28,14 @@
             <tr>
                 <td>{{ movie.id }}</td>
                 <td>{{ movie.title }}</td>
-                <td>{{ movie.releaseDate ? movie.releaseDate|date('d-M-Y') : '' }}</td>
+                <td>{{ movie.releaseDate ? movie.releaseDate|date('Y') : '' }}</td>
                 <td class="text-end">{{ movie.duration }} min</td>
                 <td><img src="{{ movie.poster }}" height="40"></td>
-                <td>{{ movie.type }}</td>                
-                <td>
-                    {% for genre in movie.genres %}
-                    {{ genre.name}}
-                    {% endfor %}
-                </td>
+                <td>{{ movie.type }}</td>
                 <td>{{ movie.rating }}</td>
                 <td>
-                    <a href="{{ path('back_movie_show', {'id': movie.id}) }}" class="btn btn-warning mb-2">Voir</a>
-                    <a href="{{ path('back_movie_edit', {'id': movie.id}) }}" class="btn btn-success mb-2">Modifier</a>
+                    <a href="{{ path('back_movie_show', {'id': movie.id}) }}" class="btn btn-sm btn-primary">show</a>
+                    <a href="{{ path('back_movie_edit', {'id': movie.id}) }}" class="btn btn-sm btn-success">edit</a>
                     {% if movie.type == 'Série' %}
                     <a href="{{ path('back_season_index', {'id': movie.id}) }}" class="btn btn-sm btn-warning">saisons</a>
                     {% endif %}
@@ -52,7 +48,5 @@
         {% endfor %}
         </tbody>
     </table>
-</div>
-
-
+    
 {% endblock %}
