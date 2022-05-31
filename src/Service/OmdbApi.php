@@ -24,6 +24,7 @@ class OmdbApi
 
     /**
      * Exécuter une requête pour une titre donné
+     * @deprecated 1.1
      */
     public function fetch(string $title)
     {

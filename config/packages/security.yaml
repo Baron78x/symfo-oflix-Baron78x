@@ -14,9 +14,27 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        # Firewall qui intercepte la route de login API
+        login:
+            pattern: ^/api/v1/login
+            stateless: true
+            json_login:
+                check_path: /api/v1/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # Firewall qui gère les routes de l'API
+        api:
+            pattern:   ^/api/v1
+            stateless: true
+            jwt: ~
+
+        # Routes de dev
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # Toutes les autres du projet (l'appli HTML O'flix front/back)
         main:
             lazy: true
             provider: app_user_provider
@@ -45,14 +63,14 @@ security:
         # @link https://symfony.com/doc/5.4/security.html#allowing-unsecured-access-i-e-anonymous-users
 
         # Front : Si ROLE_USER : ajouter une critique sur un film.
-        - { path: ^/movie/\d+/review/add, roles: ROLE_USER }
+        - { path: ^/movie/.+/review/add, roles: ROLE_USER }
 
         # Back : Sécuriser toutes les routes /new /edit /delete avec ROLE_ADMIN.
         # On configure d'abord les règles pour le ROLE_ADMIN afin de restreindre l'accès à ROLE_MANAGER
 
-        - { path: ^/back/(movie|season)/new, roles: ROLE_ADMIN }
-        - { path: ^/back/(movie|season)/\d+/edit, roles: ROLE_ADMIN }
-        - { path: ^/back/(movie|season)/\d+, roles: ROLE_ADMIN, methods: POST }
+        - { path: ^/back/(movie|season|user)/new, roles: ROLE_ADMIN }
+        - { path: ^/back/(movie|season|user)/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/back/(movie|season|user)/\d+, roles: ROLE_ADMIN, methods: POST }
 
         # Back : Si ROLE_MANAGER : accès aux pages de listes movie, genres etc. et pages show (si existantes).
         - { path: ^/back, roles: ROLE_MANAGER }
@@ -62,6 +80,9 @@ security:
 
         # back_season_index          GET        ANY      ANY    /back/season/movie/{id}            
         # back_season_show           GET        ANY      ANY    /back/season/{id}
+
+        # Routes de l'API
+        - { path: ^/api/v1/movies, methods: POST, roles: ROLE_ADMIN }
     
     role_hierarchy:
         # Le rôle ADMIN hérite du rôle MANAGER
